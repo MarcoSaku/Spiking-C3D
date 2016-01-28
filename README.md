@@ -6,5 +6,5 @@ Here we use a Spiking Neural Network to classify the videos: this work is an ext
 ## How to use
 1. Compile C3D (compile also Python wrapper)
 2. Download the video dataset YUPENN (http://vision.eecs.yorku.ca/research/dynamic-scenes/) and extract the frames: the C3D wants the format %06d.jpg for the file image
-3. Edit the path into C3D/examples/c3d_train_yupenn/lst_files/test_yupenn_full_4vid_shuffle.lst
+3. Edit the paths into C3D/examples/c3d_train_yupenn/lst_files/test_yupenn_full_4vid_shuffle.lst
 4. Run the script 'run_nengo_3d.py'   
