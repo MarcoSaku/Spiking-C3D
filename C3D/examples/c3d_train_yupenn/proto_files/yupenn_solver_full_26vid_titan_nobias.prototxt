@@ -1,0 +1,36 @@
+### Learning for YUPENN 3 classes 20 videos on Titan
+# train sample: 3130
+# test sample: 499
+# batch size: 30
+# iterations for epoch learning: 105
+####################################################
+
+train_net: "/home/marcosaviano/C3D-master/examples/c3d_train_yupenn/proto_files/yupenn_train_poolmean_nobias.prototxt"
+test_net: "/home/marcosaviano/C3D-master/examples/c3d_train_yupenn/proto_files/yupenn_test_poolmean_nobias.prototxt"
+test_iter: 5
+test_interval: 525
+# base_lr: 0.003
+#initial learning rate
+base_lr: 0.003
+momentum: 0.9
+weight_decay: 0.005
+## drop the learning rate each stepsize iterations
+lr_policy: "step"
+gamma: 0.1
+
+# each 30 epochs
+stepsize: 2100
+# Display each epoch
+display: 105
+# The maximum number of iterations (10 epochs)
+#max_iter: 900
+max_iter: 5250
+# snapshot intermediate results (save each 4 epochs)
+snapshot: 1050
+# snapshot_prefix: "./snapshots/yupenn_train_nobias_pool_mean_3cl_20vid"
+snapshot_prefix: "/home/marcosaviano/C3D-master/examples/c3d_train_yupenn/snapshots/yupenn_train_poolmean_nobias/yupenn_train_poolmean_nobias"
+# solver mode: CPU or GPU
+solver_mode: GPU
+device_id: 0
+
+

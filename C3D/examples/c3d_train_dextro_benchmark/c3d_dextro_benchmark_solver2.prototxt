@@ -1,0 +1,21 @@
+train_net: "c3d_dextro_benchmark_train2.prototxt"
+test_net: "c3d_dextro_benchmark_test.prototxt"
+# test_net: "we don't use testing on the fly"
+test_iter: 500
+test_interval: 1000
+base_lr: 0.0001
+momentum: 0.9
+weight_decay: 0.0005
+lr_policy: "step"
+gamma: 0.1
+stepsize: 10000
+# Display every 200 iterations
+display: 20
+# The maximum number of iterations
+max_iter: 100000
+# snapshot intermediate results
+snapshot: 5000
+snapshot_prefix: "c3d_dextro_benchmark2"
+# solver mode: CPU or GPU
+solver_mode: GPU
+device_id: 0

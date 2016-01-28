@@ -1,0 +1,2 @@
+#GLOG_logtostderr=1 ../../build/tools/compute_volume_mean_from_list.bin ./lst_files/train_yupenn_3cl_25vid.lst 16 128 171 1 mean_yupenn_3cl_25vid.binaryproto 1
+GLOG_logtostderr=1 ../../build/tools/compute_volume_mean_from_list.bin ./lst_files/train_yupenn_full_26vid.lst 16 128 171 1 mean_yupenn_full_26vid.binaryproto 1

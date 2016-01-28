@@ -1,0 +1,1 @@
+G_logtosterr=1 ../../build/tools/extract_image_features.bin ./proto_files/yupenn_test_poolmean_little_nobias.prototxt ./snapshots/yupenn_train_poolmean_little_nobias_iter_760 0 1 1 proto_files/output_list_prefix.txt data 

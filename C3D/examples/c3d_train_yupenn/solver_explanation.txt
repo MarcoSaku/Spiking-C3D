@@ -1,0 +1,20 @@
+Hi,
+you write about few issue. But first of all, some terminology:
+epoch: Forward and Backward pass of all training examples ( not used in Caffe)
+batch: how many images in one pass
+iterations: how many batches
+
+1. Batch Size
+Batch size in mainly depended to your memory in GPU/RAM. Most time it is used power of two (64,128,256). I always try to choose 256, because it works better with SGD. But for bigger network I use 64.
+2. Number of Iterations
+Number if iterations set number of epoch of learning. Here I will use MNIST example to explain it to you:
+Training: 60k, batch size: 64, maximum_iterations= 10k. So, there will be 10k*64 = 640k images of learning. This mean, that there will be 10.6 of epochs.(Number if epochs is hard to set, you should stop when net does not learn any more, or it is overfitting)
+Val: 10k, batch size: 100, test_iterations: 100, So, 100*100: 10K, exacly all images from validation base.
+
+So, if you would like to test 20k images, you should set ex. batch_size=100 and test_iterations: 200. This will allow you to test all validation base in each testing procedure.
+To sum up, parameters "test_iterations" and "batch size" in test depend on number of images in test database.
+Parameters "maximum_iterations" and "batch size" in train depend on number of epochs you would like to train your net.
+I hope, you understand this example.
+
+
+Test score #0: xxx and Test score #1. In this case score 0 is the accuracy and score 1 is the loss
