@@ -1,5 +1,5 @@
 # Spiking-C3D
-Convolutional 3D Spiking Nueral Network to classify videos using Leaky-Integrate-and-Fire Neurons.
+Convolutional 3D Spiking Neural Network to classify videos using Leaky-Integrate-and-Fire Neurons.
 The training is done using the 3D Convolutional Neural Network released by Facebook: https://research.facebook.com/blog/c3d-generic-features-for-video-analysis/
 Here we use a Spiking Neural Network to classify the videos: this work is an extension of this publication: http://arxiv.org/abs/1510.08829
 
