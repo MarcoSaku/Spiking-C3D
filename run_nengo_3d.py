@@ -1,4 +1,3 @@
-## Caffe format for frames 4,3,16,240,320--->batch_size,channels,num_frames,height,width
 ## Caffe format for weights (proto.num(), proto.channels(), proto.length(), proto.height(), proto.width())
 import cv2
 import logging
@@ -15,7 +14,7 @@ from c3d_caffe.proto import caffe_pb2
 from google import protobuf
 import time
 
-###Caffe Layer Type Dict ####
+### Caffe Layer Type Dict ####
 layers_type = {33:'data', 30:'conv', 18: 'relu', 31:'pool',14:'fc'};
 
 
@@ -37,14 +36,13 @@ layers_type = {33:'data', 30:'conv', 18: 'relu', 31:'pool',14:'fc'};
 # delay = Delay(1, timesteps=int(2 / 0.001))
 
 #### YUPENN ####
-model_def_file = '/home/marcosaviano/C3D-master/examples/c3d_train_yupenn/proto_files/yupenn_test_poolmean_nobias_deploy.prototxt'
-prototxt='/home/marcosaviano/C3D-master/examples/c3d_train_yupenn/proto_files/yupenn_test_poolmean_nobias.prototxt'
-model_file = '/home/marcosaviano/C3D-master/examples/c3d_train_yupenn/snapshots/yupenn_train_poolmean_nobias/yupenn_train_poolmean_nobias_iter_5250'
-test_video_list = '/home/marcosaviano/C3D-master/examples/c3d_train_yupenn/lst_files/test_yupenn_full_4vid_shuffle.lst'
-mean_file='/home/marcosaviano/C3D-master/examples/c3d_train_yupenn/mean_yupenn_full_26vid.binaryproto'
+model_def_file = './C3D/examples/c3d_train_yupenn/proto_files/yupenn_test_poolmean_nobias_deploy.prototxt'
+prototxt='./C3D/examples/c3d_train_yupenn/proto_files/yupenn_test_poolmean_nobias.prototxt'
+model_file = './C3D/examples/c3d_train_yupenn/snapshots/yupenn_train_poolmean_nobias/yupenn_train_poolmean_nobias_iter_5250'
+test_video_list = './C3D/examples/c3d_train_yupenn/lst_files/test_yupenn_full_4vid_shuffle.lst'
+mean_file='./C3D/examples/c3d_train_yupenn/mean_yupenn_full_26vid.binaryproto'
 
-# Neurons variables
-#original tau_rc=0.02, tau_ref=0.002,
+# Neurons parameters
 tau_ref = 0.001
 tau_rc = 0.05
 alpha = 0.825
@@ -53,7 +51,6 @@ presentation_time=0.25
 num_clip_test=70
 crop_size=112
 image_resize_dim=(128,171)
-get_ind = lambda t: int(t / presentation_time)
 ###################
 
 def round_array(x, n_values, x_min, x_max):
@@ -67,19 +64,14 @@ def round_array(x, n_values, x_min, x_max):
 
 
 def round_layer(filters,biases, n_values, clip_percent=0):
-    #if 'weights' in layer:
-    # if filters:
-    #for weights in layer['weights']:
     w_min = np.percentile(filters.ravel(), clip_percent)
     w_max = np.percentile(filters.ravel(), 100 - clip_percent)
     round_array(filters, n_values, w_min, w_max)
 
-    # if biases:
-    #for biases in layer['biases']:
     b_min = biases.min()
     b_max = biases.max()
     round_array(biases, n_values, b_min, b_max)
-    # return filters,biases
+
 
 def load_data(c3d_net):
     import csv
@@ -101,11 +93,6 @@ def load_data(c3d_net):
         start_frame = int(start_frame)
         category_id = int(category_id)
         labels[count]=category_id
-        # if not os.path.isdir(video_name):
-        #     print "[Error] video_name path={} does not exist. Skipping...".format(video_name)
-        #     continue
-        # video_id = video_name.split('/')[-1]
-        # category = video_name.split('/')[-2]
 
         c3d_depth=c3d_net.blobs['data'].data.shape[2]
         dims = tuple(image_resize_dim) + (3,c3d_depth)
@@ -247,7 +234,6 @@ def my_error_new(dt, labels, t, y,y_filt):
 
     return y_pred, top1errors,
 
-#num_batches,num_frames,num_channel,height,width
 c3d_net = c3d_caffe.Net(model_def_file, model_file)
 print 'Presentation time per clip: '+str(presentation_time)
 print "Loading data: "+str(num_clip_test)+" clips..."
@@ -271,12 +257,10 @@ target_key=None
 input_shape=[3,16,crop_size,crop_size]
 
 with network:
-    #for ii in range(0, 2):
     for ii in range(0, len(net.layers)):
         type_id=net.layers[ii].type
         type=layers_type.get(type_id)
         if type=='conv' or type=="pool" or type=="fc" or type=="drop" or type=="relu":
-        #if type=='conv' or type=="pool" or type=="fc" or type=="drop":
             out,input_shape=build_layer(net.layers,ii,output_layers,input_shape,type,c3d_net)
             output_layers.append(out)
 
@@ -284,13 +268,11 @@ with network:
             out=build_layer_data(frames)
             output_layers.append(out)
     yp = nengo.Probe(output_layers[-1], synapse=None)
-    #in_probe=nengo.Probe(output_layers[0], synapse=None)
+    
 start_time = time.time()
 print("Creating Simulator...")
 sim = nengo_ocl.Simulator(network)
 print("--- Simulator Created in %s seconds ---" % (time.time() - start_time))
-
-# sim = nengo_ocl.Simulator(network, profiling=True)
 
 print("Starting Simulation...")
 sim.run(num_clip_test * presentation_time)
@@ -298,12 +280,10 @@ print 'Getting probe...'
 dt = sim.dt
 t = sim.trange()
 y = sim.data[yp]
-#xx=sim.data[in_probe]
 print 'Probe ok!'
 s = nengo.synapses.Alpha(0.005)
 y_filt = nengo.synapses.filtfilt(y, s, dt)
 write_files(y,dt,y_filt)
-#y_pred,my_errors=my_error(dt, labels, t, y)
 y_pred,my_errors=my_error_new(dt, labels, t, y, y_filt)
 print "Done!"
 
