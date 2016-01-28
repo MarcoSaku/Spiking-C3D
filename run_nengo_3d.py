@@ -40,7 +40,7 @@ layers_type = {33:'data', 30:'conv', 18: 'relu', 31:'pool',14:'fc'};
 model_def_file = '/home/marcosaviano/C3D-master/examples/c3d_train_yupenn/proto_files/yupenn_test_poolmean_nobias_deploy.prototxt'
 prototxt='/home/marcosaviano/C3D-master/examples/c3d_train_yupenn/proto_files/yupenn_test_poolmean_nobias.prototxt'
 model_file = '/home/marcosaviano/C3D-master/examples/c3d_train_yupenn/snapshots/yupenn_train_poolmean_nobias/yupenn_train_poolmean_nobias_iter_5250'
-test_video_list = '/home/marcosaviano/C3D-master/examples/c3d_train_yupenn/lst_files/test_yupenn_full_4vid_shuffle-2.lst'
+test_video_list = '/home/marcosaviano/C3D-master/examples/c3d_train_yupenn/lst_files/test_yupenn_full_4vid_shuffle.lst'
 mean_file='/home/marcosaviano/C3D-master/examples/c3d_train_yupenn/mean_yupenn_full_26vid.binaryproto'
 
 # Neurons variables
@@ -95,6 +95,7 @@ def load_data(c3d_net):
     for count, video_and_category in enumerate(reader):
         if (count)==num_clip_test:
             break
+        assert count<num_clip_test
         (video_name, start_frame, category_id) = video_and_category
         video_name = video_name.rstrip('/')
         start_frame = int(start_frame)
