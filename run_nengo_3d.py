@@ -17,24 +17,6 @@ import time
 ### Caffe Layer Type Dict ####
 layers_type = {33:'data', 30:'conv', 18: 'relu', 31:'pool',14:'fc'};
 
-
-#### UCF-101 #####
-# prototxt_filename = '/home/marcosaviano/C3D-master/examples/c3d_train_ucf101/c3d_feat.prototxt'
-# dataset_dir='/opt/Datasets/ucf101/frames/'
-# frames_dir='/opt/Datasets/ucf101/frames/ApplyEyeMakeup/v_ApplyEyeMakeup_g01_c01/'
-# mean_file='/home/marcosaviano/C3D-master/examples/c3d_train_ucf101/ucf101_train_mean.binaryproto'
-# weights_dir='/home/marcosaviano/C3D-master/examples/c3d_train_ucf101/caffe_weights/'
-
-# class Delay(object):
-#     def __init__(self, dimensions, timesteps=50):
-#         self.history = np.zeros((timesteps, dimensions))
-#     def step(self, t, x):
-#         self.history = np.roll(self.history, -1)
-#         self.history[-1] = x
-#         return self.history[0]
-#
-# delay = Delay(1, timesteps=int(2 / 0.001))
-
 #### YUPENN ####
 model_def_file = './C3D/examples/c3d_train_yupenn/proto_files/yupenn_test_poolmean_nobias_deploy.prototxt'
 prototxt='./C3D/examples/c3d_train_yupenn/proto_files/yupenn_test_poolmean_nobias.prototxt'
