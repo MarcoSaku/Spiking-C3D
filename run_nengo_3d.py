@@ -30,7 +30,7 @@ tau_rc = 0.05
 alpha = 0.825
 amp = 0.063
 presentation_time=0.25
-num_clip_test=70
+num_clip_test=5
 crop_size=112
 image_resize_dim=(128,171)
 ###################
@@ -176,14 +176,14 @@ def build_layer(layers, ii, output_layers,input_shape,type,c3d_net):
 def write_files(y,dt,y_filt):
     import simplejson
     print 'Writing file...'
-    f = open('tests/y70_1.txt', 'w')
-    f_labels=open('tests/labels.txt', 'w')
+    f = open('probes_files/y.txt', 'w')
+    f_labels=open('probes_files/labels.txt', 'w')
     simplejson.dump(y.tolist(), f)
     simplejson.dump(labels.tolist(), f_labels)
     f.close()
     f_labels.close()
     import simplejson
-    f = open('tests/y_filt70_1.txt', 'w')
+    f = open('probes_files/y_filt.txt', 'w')
     simplejson.dump(y_filt.tolist(), f)
     f.close()
     print 'Files written!'
